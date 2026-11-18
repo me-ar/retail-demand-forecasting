@@ -32,5 +32,6 @@ jobs:
           git add reports/figures
           git diff --cached --quiet && exit 0
           git commit -m "Generate figures [skip ci]"
+          git checkout -- .   # discard regenerated report files; keep the committed ones
           git pull --rebase origin main
           git push
