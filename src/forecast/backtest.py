@@ -135,7 +135,8 @@ def main() -> None:
     with open(REPORTS / "summary.json", "w") as fh:
         json.dump({"cutoffs": CUTOFFS, "horizon_days": F.HORIZON,
                    "n_series": int(raw.groupby(["store", "item"]).ngroups),
-                   "summary": summary.reset_index().to_dict(orient="records")}, fh, indent=2, default=float)
+                   "summary": summary.reset_index().astype(object).where(summary.reset_index().notna(), None)
+                               .to_dict(orient="records")}, fh, indent=2, default=float)
 
 
 def plot_folds(res: pd.DataFrame) -> None:
